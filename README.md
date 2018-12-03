@@ -8,4 +8,7 @@ View it at https://detonations.app
 TODO:
 
 * Add sound
-* Fix layout for small screen resolutions.
+* Fix layout for small screen resolutions
+* Fine tune animation
+* Add show all detonations button
+* Allow date selection via progress bar
