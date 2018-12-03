@@ -1,0 +1,70 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header, #footer {
+    background-color: #3c87bf;
+    border-top: 1px solid black;
+    color: white;
+    padding: 8px;
+}
+
+ul {
+    list-style-type: circle;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+#content {
+    background-color:#000130;
+}
+
+#info_text {
+    padding: 8px;
+}
+
+#info_title {
+    background-color:#3c87bf;
+}
+
+#info_button {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    top: 4px;
+}
+
+#play, #stop, #fullscreen {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    top: 2px;
+}
+
+#info_close {
+    height: 100%;
+    width: 16px;
+    float: right;
+    color:white;
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+}
+
+#info_container {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+#country_container {
+    font-family: monospace;
+    font-size: 2em;
+}
+
+#date {
+    font-size: 2em;
+    color:white;
+    font-family: monospace;
+}
