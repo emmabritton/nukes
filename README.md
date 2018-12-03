@@ -2,7 +2,8 @@
 
 #### Inspired by https://www.youtube.com/watch?v=cjAqR1zICA0
 
-This is a work in progress side projects.
+This is a work in progress side project.
+View it at https://detonations.app 
 
 TODO:
 
