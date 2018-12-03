@@ -71,11 +71,13 @@ html, body {
 
 #info_button {
     float: right;
-    position: relative;
-    right: 0px;
 }
 
-#play, #stop, #fullscreen {
+#github_button {
+    float: right;
+}
+
+#play, #stop, #fullscreen, #show_dets {
     position: relative;
     margin-left: 20px;
 }
@@ -91,4 +93,8 @@ html, body {
     position: absolute;
     top: 60px;
     left: 12px;
+}
+
+#show_dets {
+    top: -8px;
 }

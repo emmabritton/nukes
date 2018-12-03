@@ -13,11 +13,12 @@
     <div id="container">
       <div id="header">
         <h1 style="float:left;">Animated detonations map</h1>
-        <button id="show_dets" style="display:none;">Show all detonations</button>
         <img src="play.png" id="play">
         <img src="stop.png" id="stop" style="display:none;">
         <img src="fullscreen.png" id="fullscreen">
+        <button id="show_dets">Show all detonations</button>
         <img src="info.png" id="info_button">
+        <a href="https://github.com/raybritton/nukes" target="_blank"><img src="github.png" id="github_button"></a>
       </div>
       <div id="content" >
         <div id="map_container">
@@ -89,20 +90,28 @@
             playButton.toggle();
           })
           $('#show_dets').on('click', function() {
+            stopTimeline();
+            stopButton.hide();
+            playButton.show();
             resetData();
+            date.textContent = '';
             drawDetonated(0, detonations.length - 1);
           });
         });
 
         stopButton.on('click', function() {
           stopTimeline();
-          stopButton.toggle();
-          playButton.toggle();
+          stopButton.hide();
+          playButton.show();
         });
       });
 
       $('#fullscreen').on('click', function() {
         toggleFullScreen();
+      });
+
+      $('#github_button').on('click', function() {
+        window.location = 'https://github.com/raybritton/nukes';
       });
 
       $(window).resize(function() {

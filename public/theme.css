@@ -29,11 +29,12 @@ h1 {
     background-color:#3c87bf;
 }
 
-#info_button {
-    width: 24px;
-    height: 24px;
+#info_button, #github_button {
+    width: 30px;
+    height: 30px;
     cursor: pointer;
     top: 4px;
+    margin-right: 8px;
 }
 
 #play, #stop, #fullscreen {
