@@ -16,6 +16,10 @@ global.SERVER_PORT = process.env.PORT || '3001';
 
 const file = fs.readFileSync('./res/map.html').toString();
 
+app.get('/alive', function (req, res) {
+    res.sendStatus(200);
+});
+
 app.get('/', function(req, res) {
     res.send(file);
 });
