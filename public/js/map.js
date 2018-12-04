@@ -94,15 +94,14 @@ function calcDetonationsForCountries(target) {
     det = detonations[end];
   }
 
-  Object.values(countries).forEach(function (country) {
-    country.detonations = 0;
-  });
+  resetData();
   for (var i = 0; i < end; i++) {
     countries[detonations[i].country].detonations++;
   }
 }
 
 function drawDetonated(start, end) {
+  resetData();
   drawWorld();
 
   for (var i = start; i <= end; i++) {

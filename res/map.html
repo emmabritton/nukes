@@ -75,6 +75,7 @@
       var playButton = $('#play');
 
       $(document).ready(function(){
+        var setupNeeded = true;
         const rng = new Math.seedrandom('nukes');
         
         detonations.forEach(det => {
@@ -88,11 +89,14 @@
           det.date = new Date(det.date);
         });
 
-        resetTimeline();
         reset(function(){
           drawWorld();
 
           playButton.on('click', function() {
+            if (setupNeeded) {
+              resetTimeline();
+              setupNeeded = false;
+            }
             gtag('event', 'play');
             resetData();
             playTimeline();
@@ -103,18 +107,18 @@
             gtag('event', 'show detonations', {
               'event_label': ((playButton.css('display') == 'none') ? 'inMidPlay - ' : '') + (currentDay ? currentDay.getFullYear() : 'Never played')
             });
+            setupNeeded = true;
             stopTimeline();
             stopButton.hide();
             playButton.show();
             resetData();
-            date.textContent = '';
             drawDetonated(0, detonations.length - 1);
           });
         });
 
         stopButton.on('click', function() {
           gtag('event', 'stop');
-          stopTimeline();
+          pauseTimeline();
           stopButton.hide();
           playButton.show();
         });

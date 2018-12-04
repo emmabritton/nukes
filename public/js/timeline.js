@@ -11,11 +11,13 @@ var lastAnalyticSent = 0;
 var dayDuration = 0;
 var jumpDay;
 
-var start = new Date(1945, 0, 0);
+const start = new Date(1945, 0, 0);
+var pause = false;
 var stop = false;
 var end;
 
 function resetTimeline() {
+  stop = false;
   timelineContainer.empty();
   var canvas = $('<canvas width="' + timelineContainer.width() + '" height="' + timelineContainer.height() + '"></canvas>')[0];
   timelineContainer.append(canvas);
@@ -25,7 +27,7 @@ function resetTimeline() {
 
   lastAnalyticSent = 0;
   dayIndex = 0;
-  currentDay = start;
+  currentDay = new Date(start);
   end = new Date(2018, 0, 0);
   var duration = end.getTime() - start.getTime();
   dayDuration = duration / MS_PER_DAY;
@@ -57,13 +59,18 @@ function resetTimeline() {
 }
 
 function playTimeline() {
-  stop = false;
-
+  pause = false;
+  calcDetonationsForCountries(currentDay);
   requestAnimationFrame(mainLoop);
+}
+
+function pauseTimeline() {
+  pause = true;
 }
 
 function stopTimeline() {
   stop = true;
+  date.textContent = '';
 }
  
 function mainLoop(timestamp) {
@@ -75,15 +82,18 @@ function mainLoop(timestamp) {
         update(timestep);
         delta -= timestep;
     }
-    draw();
     
-    requestAnimationFrame(mainLoop);  
+    if (!stop) {
+      draw();
+      
+      requestAnimationFrame(mainLoop);  
+    }
 }
 
 var nextDayChange = 0;
 
 function update(timestep) {
-  if (currentDay <= end && !stop) {
+  if (currentDay <= end && !pause) {
     if (nextDayChange < Date.now()) {
       dayIndex++;
       currentDay.setDate(currentDay.getDate() + 1);
