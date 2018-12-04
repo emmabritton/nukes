@@ -22,13 +22,13 @@ function reset(callback) {
   ctx.imageSmoothingEnabled = false;
   ctx.globalCompositeOperation = 'source-over';
   targetRadius = mapContainer.height() / 18;
-  setupMap(callback || function(){});
+  setupMap(callback || function () { });
 }
 
 var activeDetonations = [];
 
 function fireDetonations(date) {
-  detonations.forEach(function (det){
+  detonations.forEach(function (det) {
     if (det.date.getDate() == date.getDate() && det.date.getMonth() == date.getMonth() && det.date.getFullYear() == date.getFullYear()) {
       if (activeDetonations.filter((detonation) => detonation.detonation == det).length == 0) {
         activeDetonations.push({
@@ -72,17 +72,34 @@ function drawFrame() {
         ctx.fillStyle = colors.detonation.war;
       } else {
         ctx.fillStyle = colors.detonation.default;
-      }  
+      }
     } else {
       ctx.fillStyle = countries[active.detonation.country].color.detonation;
     }
-    
+
     ctx.beginPath();
     ctx.arc(xOffset + (mapWidth * active.detonation.x), yOffset + (mapHeight * active.detonation.y), active.radius, 0, FULL_CIRCLE, true);
     ctx.fill();
-  }); 
+  });
 
   drawCountryStats();
+}
+
+function calcDetonationsForCountries(target) {
+  var end = 0;
+
+  var det = detonations[0];
+  while (det.date < target && end < detonations.length) {
+    end++;
+    det = detonations[end];
+  }
+
+  Object.values(countries).forEach(function (country) {
+    country.detonations = 0;
+  });
+  for (var i = 0; i <= end; i++) {
+    countries[detonations[i].country].detonations++;
+  }
 }
 
 function drawDetonated(start, end) {
