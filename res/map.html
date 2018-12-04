@@ -102,7 +102,7 @@
           })
           $('#show_dets').on('click', function() {
             gtag('event', 'show detonations', {
-              'event_label': ((playButton.css('display') == 'none') ? 'inMidPlay - ' : '') + currentDay.getFullYear()
+              'event_label': ((playButton.css('display') == 'none') ? 'inMidPlay - ' : '') + (currentDay ? currentDay.getFullYear() : 'Never played')
             });
             stopTimeline();
             stopButton.hide();
