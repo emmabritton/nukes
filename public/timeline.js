@@ -63,6 +63,19 @@ function update(timestep) {
     nextDayChange = Date.now() + msPerDay();
   }
   fireDetonations(currentDay);
+  if (currentDay.getFullYear() == 1950) {
+    gtag('event', 'timeline', {year: 1950});
+  } else if (currentDay.getFullYear() == 1960) {
+    gtag('event', 'timeline', {year: 1960});
+  } else if (currentDay.getFullYear() == 1990) {
+    gtag('event', 'timeline', {year: 1990});
+  } else if (currentDay.getFullYear() == 2000) {
+    gtag('event', 'timeline', {year: 2000});
+  } else if (currentDay.getFullYear() == 2017) {
+    gtag('event', 'timeline', {year: 2017});
+  } else if (currentDay.getFullYear() == 2018) {
+    gtag('event', 'timeline', {year: 2018});
+  }
 }
 
 function msPerDay() {

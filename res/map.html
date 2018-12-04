@@ -8,6 +8,16 @@
     <link rel="stylesheet" type="text/css" href="/reset.css" />
     <link rel="stylesheet" type="text/css" href="/common.css" />
     <link rel="stylesheet" type="text/css" href="/theme.css" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '%s');
+    </script>
+
   </head>
   <body id="body">
     <div id="container">
@@ -84,12 +94,16 @@
           drawWorld();
 
           playButton.on('click', function() {
+            gtag('event', 'play');
             resetData();
             playTimeline();
             stopButton.toggle();
             playButton.toggle();
           })
           $('#show_dets').on('click', function() {
+            gtag('event', 'show detonations', {
+              inMidPlay: playButton.css('display') != 'none'
+            });
             stopTimeline();
             stopButton.hide();
             playButton.show();
@@ -100,6 +114,7 @@
         });
 
         stopButton.on('click', function() {
+          gtag('event', 'stop');
           stopTimeline();
           stopButton.hide();
           playButton.show();
@@ -110,11 +125,8 @@
         toggleFullScreen();
       });
 
-      $('#github_button').on('click', function() {
-        window.location = 'https://github.com/raybritton/nukes';
-      });
-
       $(window).resize(function() {
+        gtag('event', 'resized');
         reset();
         resetTimeline();
         drawWorld();
@@ -176,6 +188,7 @@
       }
 
       $('#info_button').on('click', function() {
+        gtag('event', 'info');
         $('#info_container').toggle();
       });
 
