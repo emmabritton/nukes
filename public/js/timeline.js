@@ -76,18 +76,19 @@ function mainLoop(timestamp) {
         delta -= timestep;
     }
     draw();
-    if (currentDay <= end) {
-      requestAnimationFrame(mainLoop);
-    }
+    
+    requestAnimationFrame(mainLoop);  
 }
 
 var nextDayChange = 0;
 
 function update(timestep) {
-  if (nextDayChange < Date.now()) {
-    dayIndex++;
-    currentDay.setDate(currentDay.getDate() + 1);
-    nextDayChange = Date.now() + msPerDay();
+  if (currentDay <= end) {
+    if (nextDayChange < Date.now()) {
+      dayIndex++;
+      currentDay.setDate(currentDay.getDate() + 1);
+      nextDayChange = Date.now() + msPerDay();
+    }
   }
   fireDetonations(currentDay);
   if (currentDay.getFullYear() == 1950) {
