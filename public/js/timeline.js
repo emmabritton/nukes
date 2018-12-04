@@ -1,14 +1,18 @@
 const timestep = 16.666667;
+const MS_PER_DAY = (24 * 60 * 60 * 1000);
 
 var timelineCtx;
 var currentDay;
 var delta = 0;
 var lastFrameTimeMs = 0;
-var dayCount = 0;
+var dayIndex = 0;
 var progressBarDayPercentage = 0;
 var lastAnalyticSent = 0;
+var dayDuration = 0;
+var jumpDay;
 
-var stop = false;
+var start = new Date(1945, 0, 0);
+var playing = false;
 var end;
 
 function resetTimeline() {
@@ -18,18 +22,40 @@ function resetTimeline() {
   timelineCtx = canvas.getContext("2d");
   timelineCtx.imageSmoothingEnabled = false;
   timelineCtx.globalCompositeOperation = 'source-over';
+
+  timelineContainer.on('click', function (event) {
+    if (currentDay) {
+      var x = event.screenX;
+      var percentage = x / timelineContainer.width();
+      var ms = (start.getTime() + percentage * (end.getTime() - start.getTime()));
+      currentDay = new Date(ms);
+      dayIndex = (currentDay.getTime() - start.getTime()) / MS_PER_DAY;
+    }
+  });
+
+  timelineContainer.on('mousemove', function (event) {
+    if (currentDay) {
+      var x = event.screenX;
+      var percentage = x / timelineContainer.width();
+      var ms = (start.getTime() + percentage * (end.getTime() - start.getTime()));
+      jumpDay = new Date(ms);
+    }
+  });
+
+  timelineContainer.on('mouseleave', function (event) {
+    jumpDay = null;
+  });
 }
 
 function playTimeline() {
   stop = false;
 
   lastAnalyticSent = 0;
-  dayCount = 0;
-  var start = new Date(1945, 0, 0);
+  dayIndex = 0;
   currentDay = start;
   end = new Date(2018, 0, 0);
   var duration = end.getTime() - start.getTime();
-  var dayDuration = duration / (24 * 60 * 60 * 1000);
+  dayDuration = duration / MS_PER_DAY;
   progressBarDayPercentage = timelineContainer.width() / dayDuration;
 
   requestAnimationFrame(mainLoop);
@@ -59,7 +85,7 @@ var nextDayChange = 0;
 
 function update(timestep) {
   if (nextDayChange < Date.now()) {
-    dayCount++;
+    dayIndex++;
     currentDay.setDate(currentDay.getDate() + 1);
     nextDayChange = Date.now() + msPerDay();
   }
@@ -108,7 +134,7 @@ function draw() {
   timelineCtx.fillRect(0, 0, timelineContainer.width(), timelineContainer.height());
 
   timelineCtx.fillStyle = 'rgb(80, 30, 255)';
-  timelineCtx.fillRect(0,0,dayCount * progressBarDayPercentage, timelineContainer.height());
+  timelineCtx.fillRect(0,0,dayIndex * progressBarDayPercentage, timelineContainer.height());
 
   timelineCtx.fillStyle = 'rgb(0, 0, 50)';
   timelineCtx.fillRect(0, 0, timelineContainer.width(), timelineContainer.height() / 2);
@@ -127,5 +153,9 @@ function pad(value) {
 }
 
 function showDate() {
-  date.textContent = pad(currentDay.getDate()) + " " + MONTH_NAMES[currentDay.getMonth()] + " " + currentDay.getFullYear();
+  var text = pad(currentDay.getDate()) + " " + MONTH_NAMES[currentDay.getMonth()] + " " + currentDay.getFullYear();
+  if (jumpDay) {
+    text += " ↠ " + pad(jumpDay.getDate()) + " " + MONTH_NAMES[jumpDay.getMonth()] + " " + jumpDay.getFullYear();
+  }
+  date.textContent = text;
 }

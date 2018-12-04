@@ -58,6 +58,9 @@ h1 {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+#timeline_container {
+    cursor: pointer;
+}
 
 #country_container {
     font-family: monospace;
