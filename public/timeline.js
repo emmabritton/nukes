@@ -6,6 +6,7 @@ var delta = 0;
 var lastFrameTimeMs = 0;
 var dayCount = 0;
 var progressBarDayPercentage = 0;
+var lastAnalyticSent = 0;
 
 var stop = false;
 var end;
@@ -22,6 +23,7 @@ function resetTimeline() {
 function playTimeline() {
   stop = false;
 
+  lastAnalyticSent = 0;
   dayCount = 0;
   var start = new Date(1945, 0, 0);
   currentDay = start;
@@ -42,7 +44,6 @@ function mainLoop(timestamp) {
 
     delta += timestamp - lastFrameTimeMs; 
     lastFrameTimeMs = timestamp;
- 
     
     while (delta >= timestep) {
         update(timestep);
@@ -64,18 +65,24 @@ function update(timestep) {
   }
   fireDetonations(currentDay);
   if (currentDay.getFullYear() == 1950) {
-    gtag('event', 'timeline', {year: 1950});
+    timelineAnalytic(1950);
   } else if (currentDay.getFullYear() == 1960) {
-    gtag('event', 'timeline', {year: 1960});
+    timelineAnalytic(1960);
   } else if (currentDay.getFullYear() == 1990) {
-    gtag('event', 'timeline', {year: 1990});
+    timelineAnalytic(1990);
   } else if (currentDay.getFullYear() == 2000) {
-    gtag('event', 'timeline', {year: 2000});
+    timelineAnalytic(2000);
   } else if (currentDay.getFullYear() == 2017) {
-    gtag('event', 'timeline', {year: 2017});
+    timelineAnalytic(2017);
   } else if (currentDay.getFullYear() == 2018) {
-    gtag('event', 'timeline', {year: 2018});
+    timelineAnalytic(2018);
   }
+}
+
+function timelineAnalytic(year) {
+  if (lastAnalyticSent == year) return;
+  lastAnalyticSent = year;
+  gtag('event', year.toString(), {'event_category': 'timeline', 'non_interaction': true});
 }
 
 function msPerDay() {
