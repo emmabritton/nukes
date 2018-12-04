@@ -126,7 +126,7 @@ function setupMap(ready) {
   mapImage.onload = function () {
     ready();
   }
-  mapImage.src = 'world.png';
+  mapImage.src = 'images/world.png';
 
   mapWidth = res[0];
   mapHeight = res[1];

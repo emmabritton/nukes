@@ -4,10 +4,10 @@
     <title>Nuclear detonations map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="/reset.css" />
-    <link rel="stylesheet" type="text/css" href="/common.css" />
-    <link rel="stylesheet" type="text/css" href="/theme.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/theme.css" />
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
     <script>
@@ -23,12 +23,12 @@
     <div id="container">
       <div id="header">
         <h1 style="float:left;">Animated detonations map</h1>
-        <img src="play.png" id="play">
-        <img src="stop.png" id="stop" style="display:none;">
-        <img src="fullscreen.png" id="fullscreen">
+        <img src="images/play.png" id="play">
+        <img src="images/stop.png" id="stop" style="display:none;">
+        <img src="images/fullscreen.png" id="fullscreen">
         <button id="show_dets">Show all detonations</button>
-        <img src="info.png" id="info_button">
-        <a href="https://github.com/raybritton/nukes" target="_blank"><img src="github.png" id="github_button"></a>
+        <img src="images/info.png" id="info_button">
+        <a href="https://github.com/raybritton/nukes" target="_blank"><img src="images/github.png" id="github_button"></a>
       </div>
       <div id="content" >
         <div id="map_container">
@@ -63,9 +63,9 @@
         "slowOnImportant": true
       };
     </script>
-    <script src="/data.js"></script>
-    <script src="/map.js"></script>
-    <script src="/timeline.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/timeline.js"></script>
     <script>
       var mapContainer = $('#map_container');
       var timelineContainer = $('#timeline_container');
