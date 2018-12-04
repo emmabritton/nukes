@@ -102,7 +102,7 @@
           })
           $('#show_dets').on('click', function() {
             gtag('event', 'show detonations', {
-              inMidPlay: playButton.css('display') != 'none'
+              'event_label': ((playButton.css('display') == 'none') ? 'inMidPlay - ' : '') + currentDay.getFullYear()
             });
             stopTimeline();
             stopButton.hide();
