@@ -89,7 +89,7 @@ function calcDetonationsForCountries(target) {
   var end = 0;
 
   var det = detonations[0];
-  while (det.date < target && end < detonations.length) {
+  while (det && det.date < target) {
     end++;
     det = detonations[end];
   }
@@ -97,7 +97,7 @@ function calcDetonationsForCountries(target) {
   Object.values(countries).forEach(function (country) {
     country.detonations = 0;
   });
-  for (var i = 0; i <= end; i++) {
+  for (var i = 0; i < end; i++) {
     countries[detonations[i].country].detonations++;
   }
 }
