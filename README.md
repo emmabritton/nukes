@@ -7,7 +7,6 @@ View it at https://detonations.app
 
 TODO:
 
-* Add sound
 * Fix layout for small screen resolutions
 * Fine tune animation
 
