@@ -14,6 +14,29 @@ const MS_PER_DETONATION = 400;
 var startTime = Date.now();
 var currentDetonation = 0;
 
+var warSoundEffect = new Audio('sounds/war.wav');
+var soundEffects = {};
+
+function setupSoundEffects() {
+  Object.keys(countriesInitalDate).forEach(function (country) {
+    soundEffects[country] = {
+      lastPlayed: 0,
+      audios: []
+    };
+    for (var i = 0; i < countriesInitalDate[country].recommendedAudioCount; i++) {
+      soundEffects[country].audios.push(new Audio('sounds/' + country.toLocaleLowerCase() + '.wav'));
+    }
+  });
+}
+
+function playDefaultSoundEffect(country) {
+  soundEffects[country].lastPlayed++;
+  if (soundEffects[country].lastPlayed >= soundEffects[country].audios.length) {
+    soundEffects[country].lastPlayed = 0;
+  }
+  soundEffects[country].audios[soundEffects[country].lastPlayed].play();
+}
+
 function reset(callback) {
   mapContainer.empty();
   var canvas = $('<canvas width="' + mapContainer.width() + '" height="' + mapContainer.height() + '"></canvas>')[0];
@@ -37,6 +60,11 @@ function fireDetonations(date) {
           startMs: Date.now(),
           endMs: Date.now() + ((det.special == 'WAR') ? MS_PER_DETONATION * 3 : MS_PER_DETONATION)
         });
+        if (det.special == 'WAR') {
+          warSoundEffect.play();
+        } else {
+          playDefaultSoundEffect(det.country);
+        }
         countries[det.country].detonations++;
       }
     }

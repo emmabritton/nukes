@@ -6,56 +6,64 @@ var countriesInitalDate = {
       marker: 'rgb(255, 0, 0)',
       detonation: 'rgba(255, 0, 0, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 12
   },
   "USSR": {
     "color":{
       marker: 'rgb(255, 255, 0)',
       detonation: 'rgba(255, 255, 0, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 12
   },
   "UK": {
     "color":{
       marker: 'rgb(0, 255, 255)',
       detonation: 'rgba(0, 255, 255, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 2
   },
   "CHINA": {
     "color":{
       marker: 'rgb(51, 153, 255)',
       detonation: 'rgba(51, 153, 255, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 2
   },
   "FRANCE": {
     "color":{
       marker: 'rgb(0, 0, 255)',
       detonation: 'rgba(0, 0, 255, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 2
   },
   "INDIA": {
     "color":{
       marker: 'rgb(0, 153, 0)',
       detonation: 'rgba(0, 152, 0, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 2
   },
   "PAKISTAN": {
     "color":{
       marker: 'rgb(255, 0, 255)',
       detonation: 'rgba(255, 0, 255, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 2
   },
   "NKOREA": {
     "color":{
       marker: 'rgb(255, 153, 51)',
       detonation: 'rgba(255, 153, 51, 0.5)'
     },
-    "detonations": 0
+    "detonations": 0,
+    "recommendedAudioCount": 2
   }
 };
 
