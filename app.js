@@ -14,7 +14,7 @@ app.use(express.static(__dirname + '/public'));
 global.SERVER_HOST = process.env.HOSTNAME || 'localhost';
 global.SERVER_PORT = process.env.PORT || '3001';
 
-const file = sprintf(fs.readFileSync('./res/map.html').toString(), process.env.GOOGLE_KEY, process.env.GOOGLE_KEY);
+const file = fs.readFileSync('./res/map.html').toString();
 
 app.get('/alive', function (req, res) {
     res.sendStatus(200);
