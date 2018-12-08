@@ -100,25 +100,7 @@ function update(timestep) {
       nextDayChange = Date.now() + msPerDay();
     }
     fireDetonations(currentDay);
-    if (currentDay.getFullYear() == 1950) {
-      timelineAnalytic(1950);
-    } else if (currentDay.getFullYear() == 1960) {
-      timelineAnalytic(1960);
-    } else if (currentDay.getFullYear() == 1990) {
-      timelineAnalytic(1990);
-    } else if (currentDay.getFullYear() == 2000) {
-      timelineAnalytic(2000);
-    } else if (currentDay.getFullYear() == 2017) {
-      timelineAnalytic(2017);
-    } else if (currentDay.getFullYear() == 2018) {
-      timelineAnalytic(2018);
-    }
   }
-}
-
-function timelineAnalytic(year) {
-  if (lastAnalyticSent == year) return;
-  lastAnalyticSent = year;
 }
 
 function msPerDay() {
