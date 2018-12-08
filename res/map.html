@@ -16,15 +16,6 @@
     <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffc40d">
     <meta name="theme-color" content="#ffffff">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', '%s');
-    </script>
-
   </head>
   <body id="body">
     <div id="container">
@@ -34,7 +25,7 @@
         <img src="images/stop.png" id="stop" style="display:none;">
         <img src="images/fullscreen.png" id="fullscreen">
         <button id="show_dets">Show all detonations</button>
-        <img src="images/info.png" id="info_button">
+        <img src="images/info.png" id="info_button" class="info_toggle" >
         <a href="https://github.com/raybritton/nukes" target="_blank"><img src="images/github.png" id="github_button"></a>
       </div>
       <div id="content" >
@@ -54,7 +45,7 @@
     </div>
     <div id="info_container">
       <div id="info" >
-        <div id="info_title"><p id="info_close">X</p></div>
+        <div id="info_title"><p class="info_toggle" id="info_close">X</p></div>
         <div id="info_text">
           <p>Data used for this website was gathered from <a href="/sipri-report-original.pdf" target="_blank">Nuclear Explosions 1945 - 1998</a> from the <a href="https://www.sipri.org/" target="_blank">Stockholm International Peace Research Institute</a> by Nils-Olov Bergkvist and Ragnhild Ferm and many pages on <a href="https://wikipedia.org" target="_blank">Wikipedia</a>.</p>
           <br/>
@@ -77,6 +68,7 @@
     <script src="js/data.js"></script>
     <script src="js/map.js"></script>
     <script src="js/timeline.js"></script>
+    <script src="js/common.js"></script>
     <script>
       var mapContainer = $('#map_container');
       var timelineContainer = $('#timeline_container');
@@ -109,16 +101,12 @@
               resetTimeline();
               setupNeeded = false;
             }
-            gtag('event', 'play');
             resetData();
             playTimeline();
             stopButton.toggle();
             playButton.toggle();
           })
           $('#show_dets').on('click', function() {
-            gtag('event', 'show detonations', {
-              'event_label': ((playButton.css('display') == 'none') ? 'inMidPlay - ' : '') + (currentDay ? currentDay.getFullYear() : 'Never played')
-            });
             setupNeeded = true;
             stopTimeline();
             stopButton.hide();
@@ -129,7 +117,6 @@
         });
 
         stopButton.on('click', function() {
-          gtag('event', 'stop');
           pauseTimeline();
           stopButton.hide();
           playButton.show();
@@ -141,7 +128,6 @@
       });
 
       $(window).resize(function() {
-        gtag('event', 'resized');
         reset();
         resetTimeline();
         drawWorld();
@@ -177,37 +163,7 @@
         });
       }
 
-      function toggleFullScreen() {
-        if (!document.fullscreenElement &&    // alternative standard method
-            !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
-          if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen();
-          } else if (document.documentElement.msRequestFullscreen) {
-            document.documentElement.msRequestFullscreen();
-          } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-          } else if (document.documentElement.webkitRequestFullscreen) {
-            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-          }
-        } else {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          }
-        }
-      }
-
-      $('#info_button').on('click', function() {
-        gtag('event', 'info');
-        $('#info_container').toggle();
-      });
-
-      $('#info_close').on('click', function() {
+      $('.info_toggle').on('click', function() {
         $('#info_container').toggle();
       });
     </script>

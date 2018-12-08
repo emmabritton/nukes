@@ -119,7 +119,6 @@ function update(timestep) {
 function timelineAnalytic(year) {
   if (lastAnalyticSent == year) return;
   lastAnalyticSent = year;
-  gtag('event', year.toString(), {'event_category': 'timeline', 'non_interaction': true});
 }
 
 function msPerDay() {
