@@ -22,3 +22,25 @@ function toggleFullScreen() {
     }
   }
 }
+
+function scaleRatio(containerWidth, containerHeight, imageWidth, imageHeight) {
+  var targetWidth = containerWidth;
+  var targetHeight = containerHeight;
+
+  var resImage = imageWidth / imageHeight;
+  var resTarget = targetWidth / targetHeight;
+
+  var factor = (resTarget > resImage) ? targetHeight / imageHeight : targetWidth / imageWidth;
+
+  return [imageWidth * factor, imageHeight * factor];
+}
+
+function pad(value) {
+  if (value.toString().length == 1) {
+    return "0" + value;
+  } else {
+    return value;
+  }
+}
+
+const MONTH_NAMES = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEV"];

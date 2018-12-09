@@ -24,21 +24,10 @@ html, body {
     flex: 0 0 auto;
 }
 
-#map_container {
-    width:100%;
-    height:98%;
-    position: relative;
-}
-
-#map_image, #map_canvas {
+#canvas_container {
     width:100%;
     height:100%;
-    position: absolute;
-}
-
-#timeline_container {
-    width:100%;
-    height: 32px;
+    position: relative;
 }
 
 #info {

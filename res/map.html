@@ -12,7 +12,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="favicons/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="manifest" href="favicons/site.webmanifest">
     <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffc40d">
     <meta name="theme-color" content="#ffffff">
@@ -24,24 +23,14 @@
         <img src="images/play.png" id="play">
         <img src="images/stop.png" id="stop" style="display:none;">
         <img src="images/fullscreen.png" id="fullscreen">
-        <button id="show_dets">Show all detonations</button>
+        <input type="checkbox" id="show_dets" checked>Keep detonation markers</input>
+        <input type="checkbox" id="play_sounds" checked>Play sounds</input>
         <img src="images/info.png" id="info_button" class="info_toggle" >
         <a href="https://github.com/raybritton/nukes" target="_blank"><img src="images/github.png" id="github_button"></a>
       </div>
       <div id="content" >
-        <div id="map_container">
-        
-        </div>
-        <div id="timeline_container">
-          
-        </div>  
+        <div id="canvas_container"></div> 
       </div>
-    </div>
-    <div id="country_container">
-      
-    </div>
-    <div id="date_container">
-      <p id="date"></p>
     </div>
     <div id="info_container">
       <div id="info" >
@@ -58,114 +47,87 @@
       </div>
     </div>
     <script>
-      const config = {
-        "coloring": "country",
-        "sound": "on",
-        "keepDetonations": false,
-        "slowOnImportant": true
+      const DATA = {
+        COUNTRIES: %s,
+        DETONATIONS: %s
       };
+      const CONFIG = {
+        sound: true,
+        keepDetonationMarkers: false,
+        slowOnImportant: true
+      };
+      const PARAM = {
+        SOUND: "sound",
+        MARKERS: "keepMarkers",
+        SLOW: "slow"
+      }
     </script>
     <script src="js/data.js"></script>
-    <script src="js/map.js"></script>
-    <script src="js/timeline.js"></script>
+    <script src="js/world.js"></script>
     <script src="js/common.js"></script>
     <script>
-      var mapContainer = $('#map_container');
-      var timelineContainer = $('#timeline_container');
-      var date = $('#date')[0];
-      var countryListing = $('#country_container');
+      var canvasContainer = $('#canvas_container');
       var stopButton = $('#stop');
       var playButton = $('#play');
+      var keepDetonations = $('#show_dets');
+      var playSounds = $('#play_sounds');
 
       $(document).ready(function(){
-        var setupNeeded = true;
-        const rng = new Math.seedrandom('nukes');
-        
-        detonations.forEach(det => {
-          if (typeof det.special == 'undefined') {
-            var xAdjust = getAdjustment(rng());
-            var yAdjust = getAdjustment(rng());
+        setupConfig();        
+        setupDetonationsData();
+        tl_setup();
 
-            det.x = parseFloat(det.x) + xAdjust;
-            det.y = parseFloat(det.y) + yAdjust;
-          }
-          det.date = new Date(det.date);
-        });
+        setupCanvas();
+        tl_init(canvasContainer);
 
-        reset(function(){
-          setupSoundEffects();
-          drawWorld();
-
-          playButton.on('click', function() {
-            if (setupNeeded) {
-              resetTimeline();
-              setupNeeded = false;
-            }
-            resetData();
-            playTimeline();
-            stopButton.toggle();
-            playButton.toggle();
-          })
-          $('#show_dets').on('click', function() {
-            setupNeeded = true;
-            stopTimeline();
-            stopButton.hide();
-            playButton.show();
-            resetData();
-            drawDetonated(0, detonations.length - 1);
-          });
-        });
-
-        stopButton.on('click', function() {
-          pauseTimeline();
-          stopButton.hide();
-          playButton.show();
-        });
-      });
-
-      $('#fullscreen').on('click', function() {
-        toggleFullScreen();
+        playButton.on('click', () => tl_play());
+        stopButton.on('click', () => tl_stop());
       });
 
       $(window).resize(function() {
-        reset();
-        resetTimeline();
-        drawWorld();
-        stopTimeline();
-        stopButton.hide();
-        playButton.show();
+        setupCanvas();
       });
 
-      function getAdjustment(value) {
-        if (value < 0.15) {
-          return -0.002;
-        } else if (value < 0.3) {
-          return -0.001;
-        } else if (value > 0.85) {
-          return 0.002;
-        } else if (value > 0.7) {
-          return 0.001;
-        } else {
-          return 0;
-        }
+      setupCheckbox(playSounds, 'sound', PARAM.SOUND);
+      setupCheckbox(keepDetonations, 'keepDetonationMarkers', PARAM.MARKERS);
+
+      $('#fullscreen').on('click', () => toggleFullScreen());
+      $('.info_toggle').on('click', () => $('#info_container').toggle());
+
+      function setupCanvas() {
+        canvasContainer.empty();
+        var canvas = $('<canvas width="' + canvasContainer.width() + '" height="' + canvasContainer.height() + '"></canvas>')[0];
+        canvasContainer.append(canvas);
+        var ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = false;
+        ctx.globalCompositeOperation = 'source-over';
+  
+        tl_resize(ctx, canvas.width, canvas.height);
       }
 
-      function drawCountryStats() {
-        countryListing.empty();
-        Object.keys(countries).forEach(function (name) {
-          var country = countries[name];
-          var line = "<p";
-          if (config.coloring == "country") {
-            line += " style=\"color:" + country.color.marker + "\"";
-          }
-          line += ">" + name + ": " + country.detonations + "</p";
-          countryListing.append(line);
+      function setupCheckbox(button, configVarName, paramVarName) {
+        button.on('click', function() {
+          CONFIG[configVarName] = button.prop('checked');
+          var url = new URL(window.location.href);
+          url.searchParams.set(paramVarName, CONFIG[configVarName]);
+          window.history.pushState({}, "Nuclear detonations map", url);
         });
       }
 
-      $('.info_toggle').on('click', function() {
-        $('#info_container').toggle();
-      });
+      function setupConfig() {
+        var url = new URL(window.location.href);
+        if (url.searchParams.get(PARAM.SOUND)) {
+          CONFIG.sound = url.searchParams.get(PARAM.SOUND) === "true";
+          playSounds.prop('checked', CONFIG.sound);
+        }
+        if (url.searchParams.get(PARAM.MARKERS)) {
+          CONFIG.keepDetonationMarkers = url.searchParams.get(PARAM.MARKERS) === "true";
+          keepDetonations.prop('checked', CONFIG.keepDetonationMarkers);
+        }
+        if (url.searchParams.get(PARAM.SLOW)) {
+          CONFIG.slowOnImportant = url.searchParams.get(PARAM.SLOW) === "true";
+        }
+      }
     </script>
   </body>
 </html>

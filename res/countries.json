@@ -1,0 +1,58 @@
+{
+  "USA": {
+    "color":{
+      "marker": "rgb(255, 0, 0)",
+      "detonation": "rgb(255, 0, 0, 0.5)"
+    },
+    "audiosCount": 12
+  },
+  "USSR": {
+    "color":{
+      "marker": "rgb(255, 255, 0)",
+      "detonation": "rgb(255, 255, 0, 0.5)"
+    },
+    "audiosCount": 12
+  },
+  "UK": {
+    "color":{
+      "marker": "rgb(0, 255, 255)",
+      "detonation": "rgb(0, 255, 255, 0.5)"
+    },
+    "audiosCount": 2
+  },
+  "CHINA": {
+    "color":{
+      "marker": "rgb(51, 153, 255)",
+      "detonation": "rgb(51, 153, 255, 0.5)"
+    },
+    "audiosCount": 2
+  },
+  "FRANCE": {
+    "color":{
+      "marker": "rgb(0, 0, 255)",
+      "detonation": "rgb(0, 0, 255, 0.5)"
+    },
+    "audiosCount": 2
+  },
+  "INDIA": {
+    "color":{
+      "marker": "rgb(0, 153, 0)",
+      "detonation": "rgb(0, 152, 0, 0.5)"
+    },
+    "audiosCount": 2
+  },
+  "PAKISTAN": {
+    "color":{
+      "marker": "rgb(255, 0, 255)",
+      "detonation": "rgb(255, 0, 255, 0.5)"
+    },
+    "audiosCount": 2
+  },
+  "NKOREA": {
+    "color":{
+      "marker": "rgb(255, 153, 51)",
+      "detonation": "rgb(255, 153, 51, 0.5)"
+    },
+    "audiosCount": 2
+  }
+}
