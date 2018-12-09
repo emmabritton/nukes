@@ -73,15 +73,23 @@
       var playSounds = $('#play_sounds');
 
       $(document).ready(function(){
-        setupConfig();        
+        setupConfig();  
         setupDetonationsData();
         tl_setup();
 
         setupCanvas();
         tl_init(canvasContainer);
 
-        playButton.on('click', () => tl_play());
-        stopButton.on('click', () => tl_stop());
+        playButton.on('click', () => {
+          tl_play()
+          playButton.hide();
+          stopButton.show();
+        });
+        stopButton.on('click', () => {
+          tl_stop()
+          playButton.show();
+          stopButton.hide();
+        });
       });
 
       $(window).resize(function() {

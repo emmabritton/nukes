@@ -66,7 +66,7 @@ function tl_resize(canvasCtx, width, height) {
     height: res[1] * MAP_SIZE
   };
   tl_scaleState.date.x = tl_scaleState.padding;
-  tl_scaleState.date.y = (height * MAP_SIZE) - tl_scaleState.padding;
+  tl_scaleState.date.y = (height * MAP_SIZE) - (tl_scaleState.padding * 2);
 
   tl_canvas.font = '2em monospace';
 
@@ -178,10 +178,12 @@ function tl_int_fireDetonations(date) {
         startMs: Date.now(),
         endMs: Date.now() + ((det.special == SPECIAL.WAR) ? MS_PER_DETONATION * 3 : MS_PER_DETONATION)
       });
-      if (det.special == SPECIAL.WAR) {
-        warSoundEffect.play();
-      } else {
-        tl_int_playSound(det.country);
+      if (CONFIG.sound) {
+        if (det.special == SPECIAL.WAR) {
+          warSoundEffect.play();
+        } else {
+          tl_int_playSound(det.country);
+        }
       }
       tl_state.countries[det.country].detonationCount++;
     }
