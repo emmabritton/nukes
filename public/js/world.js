@@ -18,7 +18,7 @@ function tl_init(container) {
   window.requestAnimationFrame(tl_int_tick);
 
   container.on('click', function (event) {
-    if (tl_state.currentDate) {
+    if (tl_state.currentDate && event.offsetY >= tl_scaleState.progressBar.y) {
       var x = event.offsetX;
       var percentage = x / container.width();
       var ms = (START.getTime() + percentage * (END.getTime() - START.getTime()));
