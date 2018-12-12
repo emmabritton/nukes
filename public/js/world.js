@@ -24,7 +24,7 @@ function tl_init(container) {
       var ms = (START.getTime() + percentage * (END.getTime() - START.getTime()));
       tl_state.currentDate = new Date(ms);
       tl_state.dayIndex = Math.abs(tl_state.currentDate.getTime() - START.getTime()) / MS_PER_DAY;
-      tl_int_recalcDetonations();
+      tl_int_recalcDetonations(tl_state.currentDate);
     }
   });
 
