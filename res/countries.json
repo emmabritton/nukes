@@ -1,19 +1,25 @@
 {
   "USA": {
+    "name": "USA",
+    "flag": "us",
     "color":{
       "marker": "rgb(255, 0, 0)",
       "detonation": "rgb(255, 0, 0, 0.5)"
     },
-    "audiosCount": 12
+    "audiosCount": 20
   },
   "USSR": {
+    "name": "USSR",
+    "flag": "ru",
     "color":{
       "marker": "rgb(255, 255, 0)",
       "detonation": "rgb(255, 255, 0, 0.5)"
     },
-    "audiosCount": 12
+    "audiosCount": 20
   },
   "UK": {
+    "name": "UK",
+    "flag": "gb",
     "color":{
       "marker": "rgb(0, 255, 255)",
       "detonation": "rgb(0, 255, 255, 0.5)"
@@ -21,6 +27,8 @@
     "audiosCount": 2
   },
   "CHINA": {
+    "name": "China",
+    "flag": "cn",
     "color":{
       "marker": "rgb(51, 153, 255)",
       "detonation": "rgb(51, 153, 255, 0.5)"
@@ -28,6 +36,8 @@
     "audiosCount": 2
   },
   "FRANCE": {
+    "name": "France",
+    "flag": "fr",
     "color":{
       "marker": "rgb(0, 0, 255)",
       "detonation": "rgb(0, 0, 255, 0.5)"
@@ -35,6 +45,8 @@
     "audiosCount": 2
   },
   "INDIA": {
+    "name": "India",
+    "flag": "in",
     "color":{
       "marker": "rgb(0, 153, 0)",
       "detonation": "rgb(0, 152, 0, 0.5)"
@@ -42,6 +54,8 @@
     "audiosCount": 2
   },
   "PAKISTAN": {
+    "name": "Pakistan",
+    "flag": "pk",
     "color":{
       "marker": "rgb(255, 0, 255)",
       "detonation": "rgb(255, 0, 255, 0.5)"
@@ -49,6 +63,8 @@
     "audiosCount": 2
   },
   "NKOREA": {
+    "name": "N. Korea",
+    "flag": "kp",
     "color":{
       "marker": "rgb(255, 153, 51)",
       "detonation": "rgb(255, 153, 51, 0.5)"

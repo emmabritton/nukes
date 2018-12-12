@@ -57,6 +57,7 @@ function tl_resize(canvasCtx, width, height) {
 
   tl_scaleState.map = {};
   tl_scaleState.date = {};
+  tl_scaleState.stats = {};
   tl_scaleState.map.offset = {
     x: (width - res[0]),
     y: (height * MAP_SIZE - res[1]) / 2
@@ -67,8 +68,9 @@ function tl_resize(canvasCtx, width, height) {
   };
   tl_scaleState.date.x = tl_scaleState.padding;
   tl_scaleState.date.y = (height * MAP_SIZE) - (tl_scaleState.padding * 2);
-
-  tl_canvas.font = '2em monospace';
+  tl_scaleState.stats.x = tl_scaleState.padding;
+  tl_scaleState.stats.y = tl_scaleState.padding * 4;
+  tl_scaleState.stats.fontSize = 32;
 
   var duration = END.getTime() - START.getTime();
   var dayDuration = duration / MS_PER_DAY;
@@ -279,9 +281,16 @@ function tl_int_drawTimeline() {
   if (tl_state.jumpDate) {
     text += " ↠ " + pad(tl_state.jumpDate.getDate()) + " " + MONTH_NAMES[tl_state.jumpDate.getMonth()] + " " + tl_state.jumpDate.getFullYear();
   }
+
+  tl_canvas.font = '2em monospace';
   tl_canvas.fillText(text, tl_scaleState.date.x, tl_scaleState.date.y)
 }
 
 function tl_int_drawCountryStats() {
+  tl_canvas.font = tl_scaleState.fontSize + 'px monospace';
 
+  Object.keys(tl_state.countries).forEach((name, idx) => {
+    tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
+    tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, tl_scaleState.stats.x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * idx));
+  });
 }
