@@ -1,7 +1,7 @@
 {
   "name": "nukes",
   "version": "1.0.0",
-  "description": "Interactive map of nuclear detonations\"",
+  "description": "Interactive map of nuclear detonations",
   "main": "app.js",
   "author": "Ray Britton <raybritton@gmail.com>",
   "license": "Apache-2.0",
