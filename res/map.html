@@ -21,6 +21,7 @@
       <div id="header">
         <h1 style="float:left;">Nuclear detonations map</h1>
         <img src="images/play.png" id="play">
+        <img src="images/pause.png" id="pause" style="display:none;">
         <img src="images/stop.png" id="stop" style="display:none;">
         <img src="images/fullscreen.png" id="fullscreen">
         <input type="checkbox" id="show_dets" checked>Keep detonation markers</input>
@@ -69,6 +70,7 @@
       var canvasContainer = $('#canvas_container');
       var stopButton = $('#stop');
       var playButton = $('#play');
+      var pauseButton = $('#pause');
       var keepDetonations = $('#show_dets');
       var playSounds = $('#play_sounds');
 
@@ -83,11 +85,19 @@
         playButton.on('click', () => {
           tl_play()
           playButton.hide();
+          pauseButton.show();
+          stopButton.show();
+        });
+        pauseButton.on('click', () => {
+          tl_pause()
+          playButton.show();
+          pauseButton.hide();
           stopButton.show();
         });
         stopButton.on('click', () => {
           tl_stop()
           playButton.show();
+          pauseButton.hide();
           stopButton.hide();
         });
       });

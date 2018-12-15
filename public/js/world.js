@@ -70,7 +70,7 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.date.y = (height * MAP_SIZE) - (tl_scaleState.padding * 2);
   tl_scaleState.stats.x = tl_scaleState.padding;
   tl_scaleState.stats.y = tl_scaleState.padding * 4;
-  tl_scaleState.stats.fontSize = 32;
+  tl_scaleState.stats.fontSize = tl_scaleState.height * 0.04;
 
   var duration = END.getTime() - START.getTime();
   var dayDuration = duration / MS_PER_DAY;
@@ -110,20 +110,26 @@ function tl_setup() {
 function tl_play() {
   console.log("Playing");
   tl_state.playing = true;
+  tl_int_tick();
 } 
 
-function tl_stop() {
-  console.log("Stopped");
+function tl_pause() {
+  console.log("Paused");
   tl_state.playing = false;
 }
 
+function tl_stop() {
+  console.log("Stopped");
+  tl_setup();
+}
+
 function tl_int_tick() {
-  tl_int_drawBackground();
+  tl_int_drawBackground(); 
+  tl_int_render();
   if (tl_state.playing) {
     tl_int_update();
-    tl_int_render();
+    window.requestAnimationFrame(tl_int_tick);
   }
-  window.requestAnimationFrame(tl_int_tick);
 }
 
 function tl_int_update() {
@@ -137,6 +143,9 @@ function tl_int_update() {
     tl_int_fireDetonations(tl_state.currentDate);
   }
   tl_int_updateDetonations();
+  if (tl_state.currentDate >= END) {
+    tl_state.playing = false;
+  }
 }
 
 function tl_int_msPerDay(currentDay) {
@@ -223,8 +232,10 @@ function tl_int_render() {
     tl_int_drawMarkers();
   }
   tl_int_drawDetonations();
-  tl_int_drawTimeline();
-  tl_int_drawCountryStats();
+  if (tl_state.currentDate > START) {
+    tl_int_drawTimeline();
+    tl_int_drawCountryStats();
+  }
 }
 
 function tl_int_drawBackground() {
@@ -287,7 +298,7 @@ function tl_int_drawTimeline() {
 }
 
 function tl_int_drawCountryStats() {
-  tl_canvas.font = tl_scaleState.fontSize + 'px monospace';
+  tl_canvas.font = tl_scaleState.stats.fontSize + 'px monospace';
 
   Object.keys(tl_state.countries).forEach((name, idx) => {
     tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
