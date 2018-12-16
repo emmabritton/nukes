@@ -14,7 +14,7 @@ ul {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 150%;
 }
 
 #content {
@@ -56,19 +56,4 @@ h1 {
 
 #info_container {
     background-color: rgba(0, 0, 0, 0.4);
-}
-
-#timeline_container {
-    cursor: pointer;
-}
-
-#country_container {
-    font-family: monospace;
-    font-size: 2em;
-}
-
-#date {
-    font-size: 2em;
-    color:white;
-    font-family: monospace;
 }

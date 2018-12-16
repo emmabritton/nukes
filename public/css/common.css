@@ -71,19 +71,6 @@ html, body {
     margin-left: 20px;
 }
 
-#date_container {
-    position: relative;
-    bottom: 7vh;
-    left:12px;
-    float:left;
-}
-
-#country_container {
-    position: absolute;
-    top: 60px;
-    left: 12px;
-}
-
 #show_dets {
     top: -8px;
 }

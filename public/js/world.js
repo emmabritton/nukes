@@ -70,7 +70,7 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.date.y = (height * MAP_SIZE) - (tl_scaleState.padding * 2);
   tl_scaleState.stats.x = tl_scaleState.padding;
   tl_scaleState.stats.y = tl_scaleState.padding * 4;
-  tl_scaleState.stats.fontSize = tl_scaleState.height * 0.04;
+  tl_scaleState.stats.fontSize = 35;
 
   var duration = END.getTime() - START.getTime();
   var dayDuration = duration / MS_PER_DAY;
@@ -175,9 +175,14 @@ function tl_int_recalcDetonations(target) {
 
   Object.keys(tl_state.countries).forEach((name) => tl_state.countries[name].detonationCount = 0);
   
+  tl_state.completeDetonations = [];
   for (var i = 0; i < end; i++) {
     tl_state.countries[DATA.DETONATIONS[i].country].detonationCount++;
+    tl_state.completeDetonations.push({
+        detonation: DATA.DETONATIONS[i]
+    });
   }
+
 }
 
 function tl_int_fireDetonations(date) {
