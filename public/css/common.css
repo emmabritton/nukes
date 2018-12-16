@@ -14,6 +14,10 @@ html, body {
     justify-content: space-between;
 }
 
+.toolbar_item {
+    float: left;
+}
+
 #content {
     flex: 1 0 0;
     height: 100%;
@@ -67,10 +71,10 @@ html, body {
 }
 
 #play, #stop, #fullscreen, #show_dets, #pause {
-    position: relative;
     margin-left: 20px;
 }
 
-#show_dets {
-    top: -8px;
+.check_container {
+    top: 8px;
+    position: relative;
 }

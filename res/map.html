@@ -20,12 +20,18 @@
     <div id="container">
       <div id="header">
         <h1 style="float:left;">Nuclear detonations map</h1>
-        <img src="images/play.png" id="play">
-        <img src="images/pause.png" id="pause" style="display:none;">
-        <img src="images/stop.png" id="stop" style="display:none;">
-        <img src="images/fullscreen.png" id="fullscreen">
-        <input type="checkbox" id="show_dets">Show markers</input>
-        <input type="checkbox" id="play_sounds" checked>Play sounds</input>
+        <img class="toolbar_item" src="images/play.png" id="play">
+        <img class="toolbar_item" src="images/pause.png" id="pause" style="display:none;">
+        <img class="toolbar_item" src="images/stop.png" id="stop" style="display:none;">
+        <img class="toolbar_item" src="images/fullscreen.png" id="fullscreen">
+        <div class="toolbar_item check_container">
+          <input type="checkbox" id="show_dets"/>
+          <label for="show_dets">Show markers</label>
+        </div>
+        <div class="toolbar_item check_container">
+          <input type="checkbox" id="play_sounds"/>
+          <label for="play_sounds">Play sounds</label>
+        </div>
         <img src="images/info.png" id="info_button" class="info_toggle" >
         <a href="https://github.com/raybritton/nukes" target="_blank"><img src="images/github.png" id="github_button"></a>
       </div>

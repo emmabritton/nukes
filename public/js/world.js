@@ -105,6 +105,7 @@ function tl_setup() {
     tl_state.countrySounds[countryName].audios.push(new Audio('sounds/' + countryName.toLocaleLowerCase() + '.wav'))
   });
   mapImage.src = 'images/world.png';
+  
 }
 
 function tl_play() {
