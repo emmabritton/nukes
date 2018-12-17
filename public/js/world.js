@@ -189,11 +189,13 @@ function tl_int_recalcDetonations(target) {
 function tl_int_fireDetonations(date) {
   DATA.DETONATIONS.forEach((det) => {
     if (det.date.getDate() == date.getDate() && det.date.getMonth() == date.getMonth() && det.date.getFullYear() == date.getFullYear()) {
+      var duration = ((det.special == SPECIAL.WAR) ? MS_PER_DETONATION * 3 : MS_PER_DETONATION);
       tl_state.activeDetonations.push({
         detonation: det,
         radius: 0,
+        targetRadius: tl_scaleState.targetRadius + (tl_scaleState.targetRadius * det.yield_perc),
         startMs: Date.now(),
-        endMs: Date.now() + ((det.special == SPECIAL.WAR) ? MS_PER_DETONATION * 3 : MS_PER_DETONATION)
+        endMs: Date.now() + duration + (duration * det.yield_perc)
       });
       if (CONFIG.sound) {
         if (det.special == SPECIAL.WAR) {
@@ -212,8 +214,8 @@ function tl_int_updateDetonations() {
 
   tl_state.activeDetonations.forEach((active) => {
     var percent = (Date.now() - active.startMs) / (active.endMs - active.startMs);
-    active.radius = tl_scaleState.targetRadius * percent;
-    if (active.radius > tl_scaleState.targetRadius) {
+    active.radius = active.targetRadius * percent;
+    if (active.radius > active.targetRadius) {
       toBeRemoved.push(active);
     }
   });
