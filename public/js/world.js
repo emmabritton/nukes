@@ -70,13 +70,19 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.date.y = (height * MAP_SIZE) - (tl_scaleState.padding * 2);
   tl_scaleState.stats.x = tl_scaleState.padding;
   tl_scaleState.stats.y = tl_scaleState.padding * 4;
-  if (width > height) {
-    tl_scaleState.stats.fontSize = 35;
-    tl_scaleState.stats.twoLists = false;
+
+  var ratio = height / width;
+  console.log("RATIO: " + ratio);
+  if (ratio < 0.63) {
+    tl_scaleState.stats.columnCount = 1;
+  } else if (ratio > 0.75) {
+    tl_scaleState.stats.columnCount = 2;
   } else {
-    tl_scaleState.stats.fontSize = 28;
-    tl_scaleState.stats.twoLists = true;
+    tl_scaleState.stats.columnCount = 4;
   }
+
+  tl_scaleState.stats.fontSize = (height / 900) * 35;
+  
   
 
   var duration = END.getTime() - START.getTime();
@@ -315,6 +321,40 @@ function tl_int_drawTimeline() {
 function tl_int_drawCountryStats() {
   tl_canvas.font = tl_scaleState.stats.fontSize + 'px monospace';
 
+  switch (tl_scaleState.stats.columnCount) {
+    case 1: 
+      Object.keys(tl_state.countries).forEach((name, idx) => {
+        tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
+        tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, tl_scaleState.stats.x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * idx));
+      });
+    break;
+    case 2:
+      var drawOnLeft = false;
+      Object.keys(tl_state.countries).forEach((name, idx) => {
+        drawOnLeft = !drawOnLeft;
+        var x = drawOnLeft ? tl_scaleState.stats.x : (tl_scaleState.width * 0.5) + tl_scaleState.stats.x
+        tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
+        tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * parseInt(idx/2)));
+      });
+    break;
+    case 4:
+      var column = 0;
+      var row = 0;
+      var divisor = (1 / tl_scaleState.stats.columnCount);
+      Object.keys(tl_state.countries).forEach((name, idx) => {
+        var x = (tl_scaleState.width * (divisor * column)) + tl_scaleState.stats.x;
+        var y = (tl_scaleState.stats.fontSize * row) + tl_scaleState.stats.y;
+        tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
+        tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, x, y);
+        column++;
+        if (column >= tl_scaleState.stats.columnCount) {
+          column = 0;
+          row++;
+        }
+      });
+    break;
+  }
+
   if (tl_scaleState.stats.twoLists) {
     var drawOnLeft = false;
     Object.keys(tl_state.countries).forEach((name, idx) => {
@@ -332,9 +372,6 @@ function tl_int_drawCountryStats() {
     });
     tl_canvas.textAlign = "left";
   } else {
-    Object.keys(tl_state.countries).forEach((name, idx) => {
-      tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
-      tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, tl_scaleState.stats.x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * idx));
-    });
+    
   }
 }
