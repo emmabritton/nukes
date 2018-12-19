@@ -5,11 +5,6 @@
 This is a work in progress side project.
 View it at https://detonations.app 
 
-TODO:
-
-* Fix layout for small screen resolutions
-* Fine tune animation
-
 ## License
 
 ```

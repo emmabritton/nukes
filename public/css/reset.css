@@ -42,3 +42,6 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+label, img {
+	user-select: none;
+}

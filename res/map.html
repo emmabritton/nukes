@@ -92,7 +92,6 @@
       $(document).ready(function(){
         setupConfig();  
         setupDetonationsData();
-        tl_setup();
 
         setupCanvas();
         tl_init(canvasContainer);
@@ -120,6 +119,22 @@
       $(window).resize(function() {
         setupCanvas();
       });
+
+      $(window).on('touchstart', function () {
+        tl_setIsTouchDevice(true);
+      });
+
+      function view_onPlayResumed() {
+        playButton.hide();
+        pauseButton.show();
+        stopButton.show();
+      }
+
+      function view_onEndReached() {
+        playButton.show();
+        pauseButton.hide();
+        stopButton.hide();
+      }
 
       setupCheckbox(playSounds, 'sound', PARAM.SOUND);
       setupCheckbox(keepDetonations, 'keepDetonationMarkers', PARAM.MARKERS);

@@ -3,6 +3,8 @@ var tl_canvas;
 var tl_scaleState = {};
 var warSoundEffect = new Audio('sounds/war.wav');
 var mapImage = new Image();
+var resetNeeded = true;
+var isTouchDevice = false;
 
 const IMAGE_WIDTH = 2917;
 const IMAGE_HEIGHT = 1535;
@@ -25,6 +27,10 @@ function tl_init(container) {
       tl_state.currentDate = new Date(ms);
       tl_state.dayIndex = Math.abs(tl_state.currentDate.getTime() - START.getTime()) / MS_PER_DAY;
       tl_int_recalcDetonations(tl_state.currentDate);
+      if (!tl_state.playing) {
+        view_onPlayResumed();
+        tl_state.playing = true;
+      }
     }
   });
 
@@ -93,7 +99,8 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.progressBar.height = height - tl_scaleState.progressBar.y;
 }
 
-function tl_setup() {
+function tl_int_setup() {
+  resetNeeded = false;
   console.log("Setup");
   tl_state = {
     activeDetonations: [],
@@ -123,6 +130,9 @@ function tl_setup() {
 
 function tl_play() {
   console.log("Playing");
+  if (resetNeeded) {
+    tl_int_setup();
+  }
   tl_state.playing = true;
   tl_int_tick();
 } 
@@ -134,7 +144,11 @@ function tl_pause() {
 
 function tl_stop() {
   console.log("Stopped");
-  tl_setup();
+  tl_int_setup();
+}
+
+function tl_setIsTouchDevice() {
+  isTouchDevice = true;
 }
 
 function tl_int_tick() {
@@ -142,8 +156,8 @@ function tl_int_tick() {
   tl_int_render();
   if (tl_state.playing) {
     tl_int_update();
-    window.requestAnimationFrame(tl_int_tick);
   }
+  window.requestAnimationFrame(tl_int_tick);
 }
 
 function tl_int_update() {
@@ -158,7 +172,9 @@ function tl_int_update() {
   }
   tl_int_updateDetonations();
   if (tl_state.currentDate >= END) {
+    resetNeeded = true;
     tl_state.playing = false;
+    view_onEndReached();
   }
 }
 
@@ -249,11 +265,11 @@ function tl_int_playSound(country) {
 }
 
 function tl_int_render() {
-  if (CONFIG.keepDetonationMarkers) {
-    tl_int_drawMarkers();
-  }
-  tl_int_drawDetonations();
   if (tl_state.currentDate > START) {
+    if (CONFIG.keepDetonationMarkers) {
+      tl_int_drawMarkers();
+    }
+    tl_int_drawDetonations();
     tl_int_drawTimeline();
     tl_int_drawCountryStats();
   }
@@ -310,7 +326,7 @@ function tl_int_drawTimeline() {
   tl_canvas.fillStyle = 'rgb(255,255,255)';
 
   var text = pad(tl_state.currentDate.getDate()) + " " + MONTH_NAMES[tl_state.currentDate.getMonth()] + " " + tl_state.currentDate.getFullYear();
-  if (tl_state.jumpDate) {
+  if (!isTouchDevice && tl_state.jumpDate) {
     text += " ↠ " + pad(tl_state.jumpDate.getDate()) + " " + MONTH_NAMES[tl_state.jumpDate.getMonth()] + " " + tl_state.jumpDate.getFullYear();
   }
 
