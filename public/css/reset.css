@@ -26,8 +26,9 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 }
-ol, ul {
-	list-style: none;
+ul {
+	list-style-position: inside;
+	list-style-type: disc;
 }
 blockquote, q {
 	quotes: none;

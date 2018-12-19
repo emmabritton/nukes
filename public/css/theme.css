@@ -9,10 +9,6 @@ html {
     padding: 8px;
 }
 
-ul {
-    list-style-type: circle;
-}
-
 h1 {
     font-size: 150%;
 }
@@ -45,13 +41,13 @@ h1 {
 }
 
 #info_close {
-    height: 100%;
     width: 16px;
+    font-size: 2em; 
     float: right;
     color:white;
     cursor: pointer;
     position: relative;
-    top: 4px;
+    right: 8px;
 }
 
 #info_container {
@@ -59,10 +55,16 @@ h1 {
 }
 
 .note {
-    font-size: 0.5em;
+    font-size: 0.7em;
+    font-style: italic;
+    margin-left: 8px;
 }
 
 h2 {
     font-size: 1.1em;
-    
+    font-weight: bold;
+}
+
+li {
+    margin-top: 6px;
 }

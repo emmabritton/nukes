@@ -46,11 +46,7 @@ html, body {
 
 #info_title {
     width: 100%;
-    height: 24px;
-}
-
-#info_close {
-
+    height: 32px;
 }
 
 #info_container {
