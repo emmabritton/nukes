@@ -36,11 +36,11 @@ html, body {
 
 #info {
     width: 600px;
-    height: 260px;
     background: white;
     position: absolute;
     top: 40%;
     left: 50%;
+    overflow: scroll;
     transform: translate(-50%, -50%);
 }
 

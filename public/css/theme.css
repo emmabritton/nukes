@@ -57,3 +57,12 @@ h1 {
 #info_container {
     background-color: rgba(0, 0, 0, 0.4);
 }
+
+.note {
+    font-size: 0.5em;
+}
+
+h2 {
+    font-size: 1.1em;
+    
+}
