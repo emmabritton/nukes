@@ -35,14 +35,23 @@ html, body {
 }
 
 #info {
-    width: 600px;
+    width: 100%;
+    min-height: 100%;
     background: white;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    overflow: scroll;
-    transform: translate(-50%, -50%);
+    overflow: scroll;    
 }
+
+@media only screen and (min-width: 600px) {
+    #info {
+        width: 600px;
+        min-height: 1px;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 40%;
+        left: 50%;
+    }
+}
+
 
 #info_title {
     width: 100%;
