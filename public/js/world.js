@@ -70,7 +70,14 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.date.y = (height * MAP_SIZE) - (tl_scaleState.padding * 2);
   tl_scaleState.stats.x = tl_scaleState.padding;
   tl_scaleState.stats.y = tl_scaleState.padding * 4;
-  tl_scaleState.stats.fontSize = 35;
+  if (width > height) {
+    tl_scaleState.stats.fontSize = 35;
+    tl_scaleState.stats.twoLists = false;
+  } else {
+    tl_scaleState.stats.fontSize = 28;
+    tl_scaleState.stats.twoLists = true;
+  }
+  
 
   var duration = END.getTime() - START.getTime();
   var dayDuration = duration / MS_PER_DAY;
@@ -308,8 +315,26 @@ function tl_int_drawTimeline() {
 function tl_int_drawCountryStats() {
   tl_canvas.font = tl_scaleState.stats.fontSize + 'px monospace';
 
-  Object.keys(tl_state.countries).forEach((name, idx) => {
-    tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
-    tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, tl_scaleState.stats.x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * idx));
-  });
+  if (tl_scaleState.stats.twoLists) {
+    var drawOnLeft = false;
+    Object.keys(tl_state.countries).forEach((name, idx) => {
+      drawOnLeft = !drawOnLeft;
+      var x = 0;
+      if (drawOnLeft) {
+        x = tl_scaleState.stats.x;
+        tl_canvas.textAlign = "left";
+      } else {
+        x = tl_scaleState.width - tl_scaleState.stats.x;
+        tl_canvas.textAlign = "right";
+      }
+      tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
+      tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * parseInt(idx/2)));
+    });
+    tl_canvas.textAlign = "left";
+  } else {
+    Object.keys(tl_state.countries).forEach((name, idx) => {
+      tl_canvas.fillStyle = DATA.COUNTRIES[name].color.marker;
+      tl_canvas.fillText(DATA.COUNTRIES[name].name + ": " + tl_state.countries[name].detonationCount, tl_scaleState.stats.x, tl_scaleState.stats.y + (tl_scaleState.stats.fontSize * idx));
+    });
+  }
 }
