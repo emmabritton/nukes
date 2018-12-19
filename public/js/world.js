@@ -27,10 +27,10 @@ function tl_init(container) {
       tl_state.currentDate = new Date(ms);
       tl_state.dayIndex = Math.abs(tl_state.currentDate.getTime() - START.getTime()) / MS_PER_DAY;
       tl_int_recalcDetonations(tl_state.currentDate);
-      if (!tl_state.playing) {
-        view_onPlayResumed();
-        tl_state.playing = true;
+      if (!tl_state.playing) { 
+        resetNeeded = false;
       }
+      view_onTimelimeJump(tl_state.playing);
     }
   });
 

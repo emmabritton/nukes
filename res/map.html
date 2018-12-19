@@ -124,10 +124,16 @@
         tl_setIsTouchDevice(true);
       });
 
-      function view_onPlayResumed() {
-        playButton.hide();
-        pauseButton.show();
-        stopButton.show();
+      function view_onTimelimeJump(isPlaying) {
+        if (isPlaying) {
+          playButton.hide();
+          pauseButton.show();
+          stopButton.show();
+        } else {
+          playButton.show();
+          pauseButton.hide();
+          stopButton.show();
+        }
       }
 
       function view_onEndReached() {
