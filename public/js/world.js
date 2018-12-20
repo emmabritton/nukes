@@ -87,7 +87,7 @@ function tl_resize(canvasCtx, width, height) {
     tl_scaleState.stats.columnCount = 4;
   }
 
-  tl_scaleState.stats.fontSize = (height / 900) * 35;
+  tl_scaleState.stats.fontSize = Math.max(24, (height / 900) * 35);
   
   
 
