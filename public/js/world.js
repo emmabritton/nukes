@@ -15,6 +15,11 @@ const MS_PER_DETONATION = 400;
 const MAP_SIZE = 0.984;
 const MS_PER_DAY = (24 * 60 * 60 * 1000);
 
+function setReadyCallback(callback) {
+  mapImage.onload = callback;
+  mapImage.src = 'images/world.png';
+}
+
 function tl_init(container) {
   console.log("Initialised");
   window.requestAnimationFrame(tl_int_tick);
@@ -124,8 +129,6 @@ function tl_int_setup() {
     }
     tl_state.countrySounds[countryName].audios.push(new Audio('sounds/' + countryName.toLowerCase() + '.mp3'))
   });
-  mapImage.src = 'images/world.png';
-  
 }
 
 function tl_play() {

@@ -62,6 +62,9 @@
         </div>
       </div>
     </div>
+    <div id="loading_container">
+      <p>Loading</p>
+    </div>
     <script>
       
       const DATA = {
@@ -104,12 +107,16 @@
         setupCanvas();
         tl_init(canvasContainer);
 
-        playButton.on('click', () => {
-          tl_play()
-          playButton.hide();
-          pauseButton.show();
-          stopButton.show();
+        setReadyCallback(function() {
+          $('#loading_container').hide();
+          playButton.on('click', () => {
+            tl_play()
+            playButton.hide();
+            pauseButton.show();
+            stopButton.show();
+          });
         });
+        
         pauseButton.on('click', () => {
           tl_pause()
           playButton.show();
