@@ -122,7 +122,7 @@ function tl_int_setup() {
       audios: [],
       lastPlayed: 0
     }
-    tl_state.countrySounds[countryName].audios.push(new Audio('sounds/' + countryName.toLocaleLowerCase() + '.wav'))
+    tl_state.countrySounds[countryName].audios.push(new Audio('sounds/' + countryName.toLowerCase() + '.wav'))
   });
   mapImage.src = 'images/world.png';
   
