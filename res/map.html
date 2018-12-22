@@ -45,7 +45,7 @@
         <div id="info_text">
           <p>Data used for this website was gathered from <a href="/sipri-report-original.pdf" target="_blank">Nuclear Explosions 1945 - 1998</a> from the <a href="https://www.sipri.org/" target="_blank">Stockholm International Peace Research Institute</a> by Nils-Olov Bergkvist and Ragnhild Ferm and many pages on <a href="https://wikipedia.org" target="_blank">Wikipedia</a>.</p>
           <br/>
-          <p>This site was inspiried by the <a href="https://www.youtube.com/watch?v=cjAqR1zICA0" target="_blank">video</a> created by Isao Hashimoto. The data I compiled to make this: <a href="https://docs.google.com/spreadsheets/d/1vFYsymbbNJAClq7sQ2Hp9U967JRBlX_41WCHuqDAmPg/edit?usp=sharing" target="_blank">detonations spreadsheet</a>.<br/><br/> Please contact me at <a href="raybritton@gmail.com">raybritton@gmail.com</a> with about mistakes, suggestions or comments.</p>
+          <p>This site was inspiried by the <a href="https://www.youtube.com/watch?v=cjAqR1zICA0" target="_blank">video</a> created by Isao Hashimoto. The data I compiled to make this: <a href="https://docs.google.com/spreadsheets/d/1vFYsymbbNJAClq7sQ2Hp9U967JRBlX_41WCHuqDAmPg/edit?usp=sharing" target="_blank">detonations spreadsheet</a>.<br/><br/> Please contact me at <a href="raybritton@gmail.com">raybritton@gmail.com</a> about mistakes, suggestions or comments.</p>
           <br/><br/>
           <h2>Facts</h2>
           <p class="note">kt stands for kilotons. 1 kiloton is the equivalent of 1000 tons of TNT/dynamite exploding.</p>
@@ -63,6 +63,7 @@
       </div>
     </div>
     <script>
+      
       const DATA = {
         COUNTRIES: %s,
         DETONATIONS: %s
@@ -91,6 +92,12 @@
       var playSounds = $('#play_sounds');
 
       $(document).ready(function(){
+        var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+        if (iOS) {
+          alert("Sorry iOS does not fully support javascript and so this site does not work properly on iOS");
+        }
+
         setupConfig();  
         setupDetonationsData();
 
