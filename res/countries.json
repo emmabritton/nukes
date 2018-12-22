@@ -3,8 +3,8 @@
     "name": "USA",
     "flag": "us",
     "color":{
-      "marker": "rgb(255, 0, 0)",
-      "detonation": "rgb(255, 0, 0, 0.5)"
+      "marker": "rgb(255, 255, 0)",
+      "detonation": "rgb(255, 255, 0, 0.5)"
     },
     "audiosCount": 20
   },
@@ -12,8 +12,8 @@
     "name": "USSR",
     "flag": "ru",
     "color":{
-      "marker": "rgb(255, 255, 0)",
-      "detonation": "rgb(255, 255, 0, 0.5)"
+      "marker": "rgb(255, 0, 0)",
+      "detonation": "rgb(255, 0, 0, 0.5)"
     },
     "audiosCount": 20
   },
@@ -39,8 +39,8 @@
     "name": "France",
     "flag": "fr",
     "color":{
-      "marker": "rgb(0, 0, 255)",
-      "detonation": "rgb(0, 0, 255, 0.5)"
+      "marker": "rgb(50, 50, 255)",
+      "detonation": "rgb(50, 50, 255, 0.5)"
     },
     "audiosCount": 2
   },
@@ -48,8 +48,8 @@
     "name": "India",
     "flag": "in",
     "color":{
-      "marker": "rgb(0, 153, 0)",
-      "detonation": "rgb(0, 152, 0, 0.5)"
+      "marker": "rgb(255, 153, 51)",
+      "detonation": "rgb(255, 153, 51, 0.5)"
     },
     "audiosCount": 2
   },
@@ -57,8 +57,8 @@
     "name": "Pakistan",
     "flag": "pk",
     "color":{
-      "marker": "rgb(255, 0, 255)",
-      "detonation": "rgb(255, 0, 255, 0.5)"
+      "marker": "rgb(0, 153, 0)",
+      "detonation": "rgb(0, 153, 0, 0.5)"
     },
     "audiosCount": 2
   },
@@ -66,8 +66,8 @@
     "name": "N. Korea",
     "flag": "kp",
     "color":{
-      "marker": "rgb(255, 153, 51)",
-      "detonation": "rgb(255, 153, 51, 0.5)"
+      "marker": "rgb(255, 0, 255)",
+      "detonation": "rgb(255, 0, 255, 0.5)"
     },
     "audiosCount": 2
   }
