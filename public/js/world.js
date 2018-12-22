@@ -1,7 +1,7 @@
 var tl_state = {};
 var tl_canvas;
 var tl_scaleState = {};
-var warSoundEffect = new Audio('sounds/war.wav');
+var warSoundEffect = new Audio('sounds/war.mp3');
 var mapImage = new Image();
 var resetNeeded = true;
 var isTouchDevice = false;
@@ -122,7 +122,7 @@ function tl_int_setup() {
       audios: [],
       lastPlayed: 0
     }
-    tl_state.countrySounds[countryName].audios.push(new Audio('sounds/' + countryName.toLowerCase() + '.wav'))
+    tl_state.countrySounds[countryName].audios.push(new Audio('sounds/' + countryName.toLowerCase() + '.mp3'))
   });
   mapImage.src = 'images/world.png';
   
