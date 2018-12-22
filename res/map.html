@@ -98,7 +98,7 @@
         var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
         if (iOS) {
-          alert("Sorry iOS does not fully support javascript and so this site does not work properly on iOS");
+          $('#fullscreen').hide();
         }
 
         setupConfig();  
