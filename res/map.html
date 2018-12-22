@@ -75,7 +75,8 @@
       const PARAM = {
         SOUND: "sound",
         MARKERS: "keepMarkers",
-        SLOW: "slow"
+        SLOW: "slow",
+        INFO: "info"
       }
     </script>
     <script src="js/data.js"></script>
@@ -151,8 +152,24 @@
         playButton.show();
         pauseButton.hide();
         stopButton.show();
+        var container = $('#info_container');
+        if (container.is(":visible")) {
+          setUrlParam(PARAM.INFO);
+        } else {
+          setUrlParam(PARAM.INFO, true);
+        }
         $('#info_container').toggle()
       });
+
+      function setUrlParam(param, value = null) {
+        var url = new URL(window.location.href);
+        if (value == null) {
+          url.searchParams.delete(param)
+        } else {
+          url.searchParams.set(param, value);
+        }
+        window.history.pushState({}, "Nuclear detonations map", url);
+      }
 
       function setupCanvas() {
         canvasContainer.empty();
@@ -168,9 +185,7 @@
       function setupCheckbox(button, configVarName, paramVarName) {
         button.on('click', function() {
           CONFIG[configVarName] = button.prop('checked');
-          var url = new URL(window.location.href);
-          url.searchParams.set(paramVarName, CONFIG[configVarName]);
-          window.history.pushState({}, "Nuclear detonations map", url);
+          setUrlParam(paramVarName, CONFIG[configVarName]);
         });
       }
 
@@ -186,6 +201,9 @@
         }
         if (url.searchParams.get(PARAM.SLOW)) {
           CONFIG.slowOnImportant = url.searchParams.get(PARAM.SLOW) === "true";
+        }
+        if (url.searchParams.has(PARAM.INFO)) {
+          $('#info_container').toggle()
         }
       }
     </script>
