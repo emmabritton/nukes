@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Nuclear detonations map</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuclear Detonations map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.4/seedrandom.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/reset.css" />
@@ -19,7 +19,7 @@
   <body id="body">
     <div id="container">
       <div id="header">
-        <h1 style="float:left;">Nuclear detonations map</h1>
+        <h1 style="float:left;">Detonations map</h1>
         <img class="toolbar_item" src="images/play.png" id="play">
         <img class="toolbar_item" src="images/pause.png" id="pause" style="display:none;">
         <img class="toolbar_item" src="images/stop.png" id="stop" style="display:none;">
@@ -87,6 +87,7 @@
     <script src="js/world.js?forceRefresh"></script>
     <script src="js/common.js?forceRefresh"></script>
     <script>
+      var iOS = false;
       var canvasContainer = $('#canvas_container');
       var stopButton = $('#stop');
       var playButton = $('#play');
@@ -95,7 +96,7 @@
       var playSounds = $('#play_sounds');
 
       $(document).ready(function(){
-        var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+        iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
         if (iOS) {
           $('#fullscreen').hide();
@@ -133,6 +134,16 @@
 
       $(window).resize(function() {
         setupCanvas();
+      });
+
+      $(window).on('popstate', function () {
+        var container = $('#info_container');
+        if (container.is(":visible")) {
+          setUrlParam(PARAM.INFO);
+          $('#info_container').toggle()
+        } else {
+          history.back();
+        }
       });
 
       $(window).on('touchstart', function () {

@@ -15,6 +15,9 @@ const MS_PER_DETONATION = 400;
 const MAP_SIZE = 0.984;
 const MS_PER_DAY = (24 * 60 * 60 * 1000);
 
+var isTooSmall = false;
+var message;
+
 function setReadyCallback(callback) {
   mapImage.onload = callback;
   mapImage.src = 'images/world.png';
@@ -25,6 +28,9 @@ function tl_init(container) {
   window.requestAnimationFrame(tl_int_tick);
 
   container.on('click', function (event) {
+    if (isTooSmall&& !iOS && event.offsetY <= tl_scaleState.progressBar.y) {
+      toggleFullScreen();
+    }
     if (tl_state.currentDate && event.offsetY >= tl_scaleState.progressBar.y) {
       var x = event.offsetX;
       var percentage = x / container.width();
@@ -57,6 +63,18 @@ function tl_init(container) {
 
 function tl_resize(canvasCtx, width, height) {
   console.log("Resized to " + width + "," + height);
+
+  if (height < 280 && iOS) {
+    message = "Sorry, this site doesn't work on small devices in landscape.|Please rotate your phone."
+    isTooSmall = true;
+  } else if (height < 250 && !iOS) {
+    message = "Sorry, your screen is too small,|click here to go fullscreen|or rotate your phone."
+    isTooSmall = true;
+  } else {
+    message = undefined;
+    isTooSmall = false;
+  }
+
   tl_canvas = canvasCtx;
   tl_scaleState.width = width;
   tl_scaleState.height = height;
@@ -93,8 +111,6 @@ function tl_resize(canvasCtx, width, height) {
   }
 
   tl_scaleState.stats.fontSize = Math.max(24, (height / 900) * 35);
-  
-  
 
   var duration = END.getTime() - START.getTime();
   var dayDuration = duration / MS_PER_DAY;
@@ -268,6 +284,10 @@ function tl_int_playSound(country) {
 }
 
 function tl_int_render() {
+  if (message !== undefined) {
+    drawMessage();
+    return;
+  }
   if (tl_state.currentDate > START) {
     if (CONFIG.keepDetonationMarkers) {
       tl_int_drawMarkers();
@@ -279,6 +299,9 @@ function tl_int_render() {
 }
 
 function tl_int_drawBackground() {
+  if (isTooSmall) {
+    return;
+  }
   tl_canvas.fillStyle = 'rgb(0, 0, 50)';
 
   tl_canvas.fillRect(0, 0, tl_scaleState.width, tl_scaleState.height);
@@ -338,6 +361,7 @@ function tl_int_drawTimeline() {
 }
 
 function tl_int_drawCountryStats() {
+  tl_canvas.textAlign = "left";
   tl_canvas.font = tl_scaleState.stats.fontSize + 'px monospace';
 
   switch (tl_scaleState.stats.columnCount) {
@@ -393,4 +417,15 @@ function tl_int_drawCountryStats() {
   } else {
     
   }
+}
+
+function drawMessage() {
+  tl_canvas.textAlign = "center"
+  tl_canvas.font = '24px arial';
+  tl_canvas.fillStyle = "rgb(255,255,255)"
+  var lines = message.split("|");
+  var yOffset = (lines.length * 12)
+  lines.forEach((line, idx) => {
+    tl_canvas.fillText(line, tl_scaleState.width * 0.5, (tl_scaleState.height * 0.5) - yOffset + (idx * 24), tl_scaleState.width * 0.90);
+  });
 }
