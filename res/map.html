@@ -15,6 +15,15 @@
     <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#ffc40d">
     <meta name="theme-color" content="#ffffff">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130410803-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-130410803-1');
+    </script>
+
   </head>
   <body id="body">
     <div id="container">
@@ -95,6 +104,13 @@
       var keepDetonations = $('#show_dets');
       var playSounds = $('#play_sounds');
 
+      function analyticEvent(action, category, label) {
+          gtag('event', action, {
+            'event_category': category,
+            'event_label': label
+          });
+      }
+
       $(document).ready(function(){
         iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
@@ -111,26 +127,40 @@
         setReadyCallback(function() {
           $('#loading_container').hide();
           playButton.on('click', () => {
-            tl_play()
-            playButton.hide();
-            pauseButton.show();
-            stopButton.show();
+            play(false)
           });
+          setTimeout(function() {
+            play(true);
+          }, 500);
         });
         
         pauseButton.on('click', () => {
-          tl_pause()
+          analyticEvent('pause', 'player');
+          tl_pause();
           playButton.show();
           pauseButton.hide();
           stopButton.show();
         });
         stopButton.on('click', () => {
-          tl_stop()
+          analyticEvent('stop', 'player');
+          tl_stop();
           playButton.show();
           pauseButton.hide();
           stopButton.hide();
         });
       });
+
+      function play(auto) {
+        if (auto) {
+          analyticEvent('start', 'player');
+        } else {
+          analyticEvent('play', 'player');
+        }
+        tl_play()
+        playButton.hide();
+        pauseButton.show();
+        stopButton.show();
+      }
 
       $(window).resize(function() {
         setupCanvas();
@@ -139,6 +169,7 @@
       $(window).on('popstate', function () {
         var container = $('#info_container');
         if (container.is(":visible")) {
+          analyticEvent('closed', 'info');
           setUrlParam(PARAM.INFO);
           $('#info_container').toggle()
         } else {
@@ -171,7 +202,10 @@
       setupCheckbox(playSounds, 'sound', PARAM.SOUND);
       setupCheckbox(keepDetonations, 'keepDetonationMarkers', PARAM.MARKERS);
 
-      $('#fullscreen').on('click', () => toggleFullScreen());
+      $('#fullscreen').on('click', () => {
+        analyticEvent('fullscreen toggle', 'player');
+        toggleFullScreen()
+      });
       $('.info_toggle').on('click', () => {
         tl_pause()
         playButton.show();
@@ -179,8 +213,10 @@
         stopButton.show();
         var container = $('#info_container');
         if (container.is(":visible")) {
+          analyticEvent('closed', 'info');
           setUrlParam(PARAM.INFO);
         } else {
+          analyticEvent('opened', 'info');
           setUrlParam(PARAM.INFO, true);
         }
         $('#info_container').toggle()
@@ -209,6 +245,7 @@
 
       function setupCheckbox(button, configVarName, paramVarName) {
         button.on('click', function() {
+          analyticEvent(paramVarName, 'settings', button.prop('checked'));
           CONFIG[configVarName] = button.prop('checked');
           setUrlParam(paramVarName, CONFIG[configVarName]);
         });

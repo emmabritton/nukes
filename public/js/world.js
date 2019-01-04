@@ -29,6 +29,7 @@ function tl_init(container) {
 
   container.on('click', function (event) {
     if (isTooSmall&& !iOS && event.offsetY <= tl_scaleState.progressBar.y) {
+      analyticEvent('fullscreen toggle', 'player');
       toggleFullScreen();
     }
     if (tl_state.currentDate && event.offsetY >= tl_scaleState.progressBar.y) {
@@ -42,6 +43,7 @@ function tl_init(container) {
         resetNeeded = false;
       }
       view_onTimelimeJump(tl_state.playing);
+      analyticEvent('timeline jump', 'player', pad(tl_state.currentDate.getDate()) + " " + MONTH_NAMES[tl_state.currentDate.getMonth()] + " " + tl_state.currentDate.getFullYear());
     }
   });
 
@@ -62,12 +64,15 @@ function tl_init(container) {
 }
 
 function tl_resize(canvasCtx, width, height) {
+  analyticEvent('resize', 'player', width + "," + height);
   console.log("Resized to " + width + "," + height);
 
   if (height < 280 && iOS) {
+    analyticEvent('size', 'site', "ios too small");
     message = "Sorry, this site doesn't work on small devices in landscape.|Please rotate your phone."
     isTooSmall = true;
   } else if (height < 250 && !iOS) {
+    analyticEvent('size', 'site', "android too small");
     message = "Sorry, your screen is too small,|click here to go fullscreen|or rotate your phone."
     isTooSmall = true;
   } else {
@@ -124,6 +129,7 @@ function tl_int_setup() {
   resetNeeded = false;
   console.log("Setup");
   tl_state = {
+    analytics: {},
     activeDetonations: [],
     completeDetonations: [],
     playing: false,
@@ -190,7 +196,9 @@ function tl_int_update() {
     tl_int_fireDetonations(tl_state.currentDate);
   }
   tl_int_updateDetonations();
+  tl_int_analytics();
   if (tl_state.currentDate >= END) {
+    analyticEvent('date reached', 'playback', "end");
     resetNeeded = true;
     tl_state.playing = false;
     view_onEndReached();
@@ -428,4 +436,18 @@ function drawMessage() {
   lines.forEach((line, idx) => {
     tl_canvas.fillText(line, tl_scaleState.width * 0.5, (tl_scaleState.height * 0.5) - yOffset + (idx * 24), tl_scaleState.width * 0.90);
   });
+}
+
+function tl_int_analytics() {
+  if (tl_state.analytics.lastDayFired == tl_state.currentDate) {
+    return;
+  }
+  tl_state.analytics.lastDayFired = new Date(tl_state.currentDate);
+  var now = tl_state.analytics.lastDayFired;
+
+  if (now.getMonth() == 0 && now.getDate() == 1) {
+    if ([1950, 1960, 1970, 1980, 1990, 2000, 2010].includes(now.getFullYear())) {
+      analyticEvent('date reached', 'playback', now.getFullYear());
+    }
+  }
 }
