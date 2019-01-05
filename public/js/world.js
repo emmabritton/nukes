@@ -17,6 +17,7 @@ const MS_PER_DAY = (24 * 60 * 60 * 1000);
 
 var isTooSmall = false;
 var message;
+var blockedFromPlaying;
 
 function setReadyCallback(callback) {
   mapImage.onload = callback;
@@ -123,6 +124,11 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.progressBar.percentage = width / dayDuration;
   tl_scaleState.progressBar.y = height * MAP_SIZE;
   tl_scaleState.progressBar.height = height - tl_scaleState.progressBar.y;
+
+  if (blockedFromPlaying) {
+    blockedFromPlaying = false;
+    view_play(true);
+  }
 }
 
 function tl_int_setup() {
@@ -179,6 +185,12 @@ function tl_setIsTouchDevice() {
 function tl_int_tick() {
   tl_int_drawBackground(); 
   tl_int_render();
+  if (message) {
+    console.log("Screen too small to play");
+    view_onEndReached();
+    blockedFromPlaying = true;
+    tl_state.playing = false;
+  }
   if (tl_state.playing) {
     tl_int_update();
   }

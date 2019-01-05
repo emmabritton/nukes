@@ -93,7 +93,7 @@
       }
     </script>
     <script src="js/data.js?forceRefresh"></script>
-    <script src="js/world.js?forceRefresh"></script>
+    <script src="js/world.js?forceRefresh=2"></script>
     <script src="js/common.js?forceRefresh"></script>
     <script>
       var iOS = false;
@@ -127,10 +127,10 @@
         setReadyCallback(function() {
           $('#loading_container').hide();
           playButton.on('click', () => {
-            play(false)
+            view_play(false)
           });
           setTimeout(function() {
-            play(true);
+            view_play(true);
           }, 500);
         });
         
@@ -150,7 +150,7 @@
         });
       });
 
-      function play(auto) {
+      function view_play(auto) {
         if (auto) {
           analyticEvent('start', 'player');
         } else {
