@@ -267,7 +267,7 @@ function tl_int_fireDetonations(date) {
       });
       if (CONFIG.sound) {
         if (det.special == SPECIAL.WAR) {
-          warSoundEffect.play().then(function(){}).catch(function(error){console.log(error)});
+          warSoundEffect.play().then(function(){}).catch(function(error){console.log(error.message)});
         } else {
           tl_int_playSound(det.country);
         }
@@ -300,7 +300,7 @@ function tl_int_playSound(country) {
   if (tl_state.countrySounds[country].lastPlayed >= tl_state.countrySounds[country].audios.length) {
     tl_state.countrySounds[country].lastPlayed = 0;
   }
-  tl_state.countrySounds[country].audios[tl_state.countrySounds[country].lastPlayed].play().then(function(){}).catch(function(error){console.log(error)});
+  tl_state.countrySounds[country].audios[tl_state.countrySounds[country].lastPlayed].play().then(function(){}).catch(function(error){console.log(error.message)});
 }
 
 function tl_int_render() {
