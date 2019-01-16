@@ -39,8 +39,8 @@
     "name": "France",
     "flag": "fr",
     "color":{
-      "marker": "rgb(130, 20, 46)",
-      "detonation": "rgba(130, 20, 46, 0.5)"
+      "marker": "rgb(150, 150, 15)",
+      "detonation": "rgba(150, 150, 15, 0.5)"
     },
     "audiosCount": 2
   },
