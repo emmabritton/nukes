@@ -13,6 +13,7 @@ const END = new Date(2018, 0, 1);
 const FULL_CIRCLE = (Math.PI / 180) * 360;
 const MS_PER_DETONATION = 400;
 const MAP_SIZE = 0.984;
+const PROGRESS_CLICK_AREA = 0.85;
 const MS_PER_DAY = (24 * 60 * 60 * 1000);
 
 var isTooSmall = false;
@@ -54,13 +55,16 @@ function tl_init(container) {
       var percentage = x / container.width();
       var ms = (START.getTime() + percentage * (END.getTime() - START.getTime()));
       tl_state.jumpDate = new Date(ms);
+      container.css('cursor', 'pointer');
     } else {
       tl_state.jumpDate = null;
+      container.css('cursor', 'auto');
     }
   });
 
   container.on('mouseleave', function (event) {
     tl_state.jumpDate = null;
+    container.css('cursor', 'auto');
   });
 }
 
@@ -107,7 +111,6 @@ function tl_resize(canvasCtx, width, height) {
   tl_scaleState.stats.y = tl_scaleState.padding * 4;
 
   var ratio = height / width;
-  console.log("RATIO: " + ratio);
   if (ratio < 0.63) {
     tl_scaleState.stats.columnCount = 1;
   } else if (ratio > 0.75) {
@@ -122,13 +125,40 @@ function tl_resize(canvasCtx, width, height) {
   var dayDuration = duration / MS_PER_DAY;
   tl_scaleState.progressBar = {};
   tl_scaleState.progressBar.percentage = width / dayDuration;
-  tl_scaleState.progressBar.y = height * MAP_SIZE;
-  tl_scaleState.progressBar.height = height - tl_scaleState.progressBar.y;
+  tl_scaleState.progressBar.y = height * PROGRESS_CLICK_AREA;
+  tl_scaleState.timelineHeightMap = new Array(tl_scaleState.width).fill(0);
+  if (height < 500) {
+    tl_scaleState.timelineScaleFactor = 1;
+  } else if (height < 800) {
+    tl_scaleState.timelineScaleFactor = 2;
+  } else {
+    tl_scaleState.timelineScaleFactor = 4;
+  }
+
+  tl_int_calcTimelinePeak(1 / tl_scaleState.progressBar.percentage);
 
   if (blockedFromPlaying) {
     blockedFromPlaying = false;
     view_play(true);
   }
+}
+
+function tl_int_calcTimelinePeak(daysPerPercent) {
+
+  DATA.DETONATIONS.forEach((detonation) => {
+    var daysSinceStart = (detonation.date.getTime() - START.getTime()) / MS_PER_DAY;
+    var idx = Math.floor(daysSinceStart / daysPerPercent);
+    tl_scaleState.timelineHeightMap[idx]++;
+  });
+
+  for (var i = 0; i < tl_scaleState.timelineHeightMap.length; i++) {
+    var value = tl_scaleState.timelineHeightMap[i];
+    if (value > 0) {
+      tl_scaleState.timelineHeightMap[i] = value + 3;
+    } else {
+      tl_scaleState.timelineHeightMap[i] = value;
+    }
+   }
 }
 
 function tl_int_setup() {
@@ -362,13 +392,38 @@ function tl_int_drawDetonations() {
 }
 
 function tl_int_drawTimeline() {
+  var pastColor = 'rgb(120, 120, 255)';
+  var activeColor = 'rgb(150,150,150)';
+  var futureColor = 'rgba(200, 200, 200, 0.5)';
+
+  var percentage = (tl_state.dayIndex * tl_scaleState.progressBar.percentage) / tl_scaleState.width;
+
+  if (percentage < 1 && percentage > 0.005) {
+    var gradient = tl_canvas.createLinearGradient(0, tl_scaleState.height, tl_scaleState.width, tl_scaleState.height);
+    gradient.addColorStop(0, pastColor);
+    gradient.addColorStop(percentage - 0.002, pastColor);
+    gradient.addColorStop(percentage - 0.001, activeColor);
+    gradient.addColorStop(percentage, futureColor);
+    gradient.addColorStop(1, futureColor);
+    tl_canvas.fillStyle = gradient;
+  } else {
+    tl_canvas.fillStyle = futureColor;  
+  }
+
+  var minHeight = 10;
+
+  tl_canvas.beginPath();
+  tl_canvas.moveTo(tl_scaleState.width, tl_scaleState.height);
+  tl_canvas.lineTo(0, tl_scaleState.height);
+  tl_canvas.lineTo(0, tl_scaleState.height - minHeight);
+  for (var x = 0; x < tl_scaleState.width; x++) { 
+    tl_canvas.lineTo(x, tl_scaleState.height - minHeight - (tl_scaleState.timelineHeightMap[x] * tl_scaleState.timelineScaleFactor));
+  }
+  tl_canvas.lineTo(tl_scaleState.width, tl_scaleState.height - minHeight);
+
   
-  tl_canvas.fillStyle = 'rgb(200, 200, 200)';
-  tl_canvas.fillRect(0, tl_scaleState.progressBar.y, tl_scaleState.width, tl_scaleState.progressBar.height);
-
-  tl_canvas.fillStyle = 'rgb(80, 30, 255)';
-  tl_canvas.fillRect(0, tl_scaleState.progressBar.y, tl_state.dayIndex * tl_scaleState.progressBar.percentage, tl_scaleState.progressBar.height);
-
+  tl_canvas.fill();
+  
   tl_canvas.fillStyle = 'rgb(255,255,255)';
 
   var text = pad(tl_state.currentDate.getDate()) + " " + MONTH_NAMES[tl_state.currentDate.getMonth()] + " " + tl_state.currentDate.getFullYear();
