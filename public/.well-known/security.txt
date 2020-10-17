@@ -1,3 +1,0 @@
-Contact: raybritton@gmail.com
-Preferred-Languages: en
-Canonical: https://raybritton.co.uk/security.txt
