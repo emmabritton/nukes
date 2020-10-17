@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-global.SERVER_HOST = process.env.HOSTNAME || 'localhost';
+global.SERVER_HOST = process.env.HOSTNAME || '0.0.0.0';
 global.SERVER_PORT = process.env.PORT || '3001';
 
 const file = makeHtmlPage();
